@@ -2,6 +2,10 @@
 
 基于 HY-MT2 模型的离线桌面翻译工具，支持划词翻译和原地替换功能。
 
+## 🎬 演示视频
+
+[![OpenTranslator Demo](https://img.youtube.com/vi/demo-video-id/0.jpg)](https://github.com/jaychen-xilinx/OpenTranslator/releases/download/v0.1.0/OpenTranslator.mp4)
+
 ## ✨ 功能特性
 
 - 🎯 **主窗口翻译**：输入文本即可翻译，支持自动检测源语言
@@ -33,7 +37,7 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/yourusername/OpenTranslator.git
+git clone https://github.com/jaychen-xilinx/OpenTranslator.git
 cd OpenTranslator
 
 # 安装依赖并编译
