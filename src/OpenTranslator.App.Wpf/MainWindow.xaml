@@ -1,0 +1,270 @@
+<Window x:Class="OpenTranslator.App.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OpenTranslator.App.Wpf"
+        mc:Ignorable="d"
+        Title="OpenTranslator" Height="600" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="#F7F7F8">
+    <Window.Resources>
+        <SolidColorBrush x:Key="AccentColor" Color="#0F6BFF"/>
+        <SolidColorBrush x:Key="BorderColor" Color="#E0E0E3"/>
+        <SolidColorBrush x:Key="PanelBackground" Color="White"/>
+        <SolidColorBrush x:Key="TextPrimary" Color="#1A1A1A"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#6B6B6F"/>
+        <SolidColorBrush x:Key="HoverBackground" Color="#F2F2F4"/>
+
+        <Style x:Key="PanelBorder" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource PanelBackground}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="12"/>
+        </Style>
+
+        <Style x:Key="IconButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource HoverBackground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LanguageComboBox" TargetType="ComboBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="Padding" Value="8,6"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TranslateButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource AccentColor}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="24,10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 顶部栏 -->
+        <DockPanel Grid.Row="0" Margin="0,0,0,16" LastChildFill="False">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                <TextBlock Text="🌐" FontSize="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                <TextBlock Text="OpenTranslator" FontSize="20" FontWeight="Bold" VerticalAlignment="Center" Foreground="{StaticResource TextPrimary}"/>
+            </StackPanel>
+            <Button Content="⚙" Style="{StaticResource IconButton}" DockPanel.Dock="Right" Click="SettingsButton_Click"/>
+        </DockPanel>
+
+        <!-- 语言栏 -->
+        <Grid Grid.Row="1" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 源语言选择 -->
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                <ComboBox x:Name="SourceComboBox"
+                          Style="{StaticResource LanguageComboBox}"
+                          ItemsSource="{Binding Languages}"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Code"
+                          SelectedItem="{Binding SourceLanguage}"/>
+            </StackPanel>
+
+            <!-- 交换按钮 -->
+            <Button Grid.Column="1"
+                    Content="⇄"
+                    Style="{StaticResource IconButton}"
+                    FontSize="20"
+                    Command="{Binding SwapLanguagesCommand}"
+                    Margin="8,0"/>
+
+            <!-- 目标语言选择 -->
+            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <ComboBox x:Name="TargetComboBox"
+                          Style="{StaticResource LanguageComboBox}"
+                          ItemsSource="{Binding Languages}"
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Code"
+                          SelectedItem="{Binding TargetLanguage}"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- 翻译面板 -->
+        <Grid Grid.Row="2" Name="PanelsGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 源文面板 -->
+            <Border Grid.Column="0" Style="{StaticResource PanelBorder}" Margin="0,0,6,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBox Grid.Row="0"
+                             Text="{Binding SourceText, UpdateSourceTrigger=PropertyChanged}"
+                             BorderThickness="0"
+                             Padding="20"
+                             FontSize="18"
+                             Foreground="{StaticResource TextPrimary}"
+                             Background="Transparent"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Disabled">
+                        <TextBox.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
+                        </TextBox.Resources>
+                    </TextBox>
+
+                    <!-- 底部工具栏 -->
+                    <DockPanel Grid.Row="1" Margin="12,8" LastChildFill="False">
+                        <Button Content="🗑" Style="{StaticResource IconButton}" DockPanel.Dock="Left" Command="{Binding ClearTextCommand}" ToolTip="清空"/>
+                        <TextBlock Text="{Binding InferenceTimeDisplay}"
+                                   DockPanel.Dock="Right"
+                                   FontSize="12"
+                                   Foreground="{StaticResource TextSecondary}"
+                                   VerticalAlignment="Center"/>
+                    </DockPanel>
+                </Grid>
+            </Border>
+
+            <!-- 译文面板 -->
+            <Border Grid.Column="1" Style="{StaticResource PanelBorder}" Margin="6,0,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBox Grid.Row="0"
+                             Text="{Binding TranslatedText}"
+                             BorderThickness="0"
+                             Padding="20"
+                             FontSize="18"
+                             Foreground="{StaticResource TextPrimary}"
+                             Background="Transparent"
+                             TextWrapping="Wrap"
+                             IsReadOnly="True"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Disabled">
+                        <TextBox.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
+                        </TextBox.Resources>
+                    </TextBox>
+
+                    <!-- 底部工具栏 -->
+                    <DockPanel Grid.Row="1" Margin="12,8" LastChildFill="False">
+                        <Button Content="📋" Style="{StaticResource IconButton}" DockPanel.Dock="Left" Command="{Binding CopyResultCommand}" ToolTip="复制译文"/>
+                    </DockPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- 底部状态栏 -->
+        <DockPanel Grid.Row="3" Margin="0,12,0,0" LastChildFill="True">
+            <Button Content="翻译"
+                    Style="{StaticResource TranslateButton}"
+                    DockPanel.Dock="Right"
+                    Command="{Binding TranslateCommand}"
+                    IsEnabled="{Binding CanTranslate}"
+                    Margin="12,0,0,0"/>
+            <!-- 模型选择 -->
+            <ComboBox x:Name="ModelComboBox"
+                      DockPanel.Dock="Right"
+                      Width="200"
+                      Height="28"
+                      ItemsSource="{Binding AvailableModels}"
+                      DisplayMemberPath="DisplayName"
+                      SelectedItem="{Binding CurrentModel}"
+                      VerticalContentAlignment="Center"
+                      HorizontalContentAlignment="Center"
+                      FontSize="12"
+                      Background="#F7F7F8"
+                      BorderBrush="#E0E0E3"
+                      BorderThickness="1"
+                      Margin="0,0,12,0"
+                      VerticalAlignment="Center">
+                <ComboBox.ItemContainerStyle>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    </Style>
+                </ComboBox.ItemContainerStyle>
+            </ComboBox>
+            <TextBlock Text="{Binding StatusText}"
+                       FontSize="12"
+                       Foreground="{StaticResource TextSecondary}"
+                       VerticalAlignment="Center"
+                       TextTrimming="CharacterEllipsis"/>
+        </DockPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,42 @@
+## Build outputs
+bin/
+obj/
+publish/
+*.pdb
+*.dll
+*.exe
+
+## Model files (large binary files)
+models/*.gguf
+models/.cache/
+publish/**/models/*.gguf
+
+## Logs
+*.log
+debug.log
+error.log
+
+## IDE
+.vscode/
+.idea/
+*.code-workspace
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## NuGet
+.nuget/
+project.lock.json
+project.assets.json
+
+## Operating System
+.DS_Store
+Thumbs.db
+desktop.ini
+
+## Configuration (local only)
+config.json
+
+## References (external reference materials)
+references/

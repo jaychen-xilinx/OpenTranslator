@@ -1,0 +1,238 @@
+<Window x:Class="OpenTranslator.App.Wpf.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OpenTranslator.App.Wpf.Views"
+        mc:Ignorable="d"
+        Title="设置" Height="500" Width="600"
+        WindowStartupLocation="CenterOwner"
+        Background="#F7F7F8"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <SolidColorBrush x:Key="AccentColor" Color="#0F6BFF"/>
+        <SolidColorBrush x:Key="BorderColor" Color="#E0E0E3"/>
+        <SolidColorBrush x:Key="PanelBackground" Color="White"/>
+        <SolidColorBrush x:Key="TextPrimary" Color="#1A1A1A"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#6B6B6F"/>
+        <SolidColorBrush x:Key="HoverBackground" Color="#F2F2F4"/>
+
+        <Style x:Key="SectionTitle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+
+        <Style x:Key="SettingRow" TargetType="Grid">
+            <Setter Property="Margin" Value="0,8,0,8"/>
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource AccentColor}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="24,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="Padding" Value="24,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource HoverBackground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="HotKeyButton" TargetType="Button">
+            <Setter Property="Width" Value="28"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="ToolTip" Value="恢复默认"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="6">
+                            <Path Data="M20,12C20,7.59 16.41,4 12,4C7.59,4 4,7.59 4,12C4,16.41 7.59,20 12,20C14.41,20 16.54,19.08 18.07,17.65L16.66,16.24C15.34,17.17 13.72,17.74 12,17.74C8.92,17.74 6.29,15.11 6.29,12C6.29,8.89 8.92,6.26 12,6.26C14.12,6.26 15.96,7.39 16.92,9.03L18.33,7.62C16.82,5.99 14.54,5 12,5C8.13,5 5,8.13 5,12C5,15.87 8.13,19 12,19C15.87,19 19,15.87 19,12H20M17,12L14,9L11,12L14,15L17,12Z" 
+                                  Fill="#6B6B6F" Width="16" Height="16" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="{StaticResource HoverBackground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="HotKeyTextBox" TargetType="TextBox">
+            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="MaxWidth" Value="180"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="border" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                Background="White">
+                            <ScrollViewer x:Name="PART_ContentHost" Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource AccentColor}"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                            <Trigger Property="IsReadOnly" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#F7F7F8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="设置" FontSize="22" FontWeight="Bold" Foreground="{StaticResource TextPrimary}" Margin="0,0,0,16"/>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- 外观设置 -->
+                <Border Background="{StaticResource PanelBackground}" CornerRadius="12" Padding="16" Margin="0,0,0,16">
+                    <StackPanel>
+                        <TextBlock Text="外观" Style="{StaticResource SectionTitle}"/>
+
+                        <Grid Style="{StaticResource SettingRow}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="主窗口布局" VerticalAlignment="Center" Foreground="{StaticResource TextPrimary}"/>
+                            <ComboBox x:Name="LayoutComboBox" Grid.Column="1" MinWidth="150" SelectedIndex="0">
+                                <ComboBoxItem Content="左右布局"/>
+                                <ComboBoxItem Content="上下布局"/>
+                            </ComboBox>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- 快捷键设置 -->
+                <Border Background="{StaticResource PanelBackground}" CornerRadius="12" Padding="16" Margin="0,0,0,16">
+                    <StackPanel>
+                        <TextBlock Text="快捷键" Style="{StaticResource SectionTitle}"/>
+
+                        <Grid Style="{StaticResource SettingRow}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="划词翻译" VerticalAlignment="Center" Foreground="{StaticResource TextPrimary}"/>
+                            <TextBox x:Name="TranslateHotKeyBox" Grid.Column="1" Style="{StaticResource HotKeyTextBox}" Text="Ctrl + Alt + B" IsReadOnly="True" PreviewKeyDown="TranslateHotKeyBox_PreviewKeyDown"/>
+                            <Button x:Name="ResetTranslateHotKeyBtn" Grid.Column="2" Style="{StaticResource HotKeyButton}" Margin="8,0,0,0" Click="ResetTranslateHotKeyBtn_Click"/>
+                        </Grid>
+
+                        <Grid Style="{StaticResource SettingRow}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="原地替换" VerticalAlignment="Center" Foreground="{StaticResource TextPrimary}"/>
+                            <TextBox x:Name="ReplaceHotKeyBox" Grid.Column="1" Style="{StaticResource HotKeyTextBox}" Text="Ctrl + Alt + V" IsReadOnly="True" PreviewKeyDown="ReplaceHotKeyBox_PreviewKeyDown"/>
+                            <Button x:Name="ResetReplaceHotKeyBtn" Grid.Column="2" Style="{StaticResource HotKeyButton}" Margin="8,0,0,0" Click="ResetReplaceHotKeyBtn_Click"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- 模型设置 -->
+                <Border Background="{StaticResource PanelBackground}" CornerRadius="12" Padding="16" Margin="0,0,0,16">
+                    <StackPanel>
+                        <TextBlock Text="模型" Style="{StaticResource SectionTitle}"/>
+
+                        <Grid Style="{StaticResource SettingRow}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="模型目录" VerticalAlignment="Center" Foreground="{StaticResource TextPrimary}" TextWrapping="Wrap"/>
+                            <Button x:Name="BrowseModelButton" Grid.Column="1" Content="浏览..." Style="{StaticResource SecondaryButton}" Padding="16,6" Click="BrowseModelButton_Click"/>
+                        </Grid>
+
+                        <TextBlock x:Name="ModelPathText" FontSize="12" Foreground="{StaticResource TextSecondary}" TextTrimming="CharacterEllipsis" Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- 关于 -->
+                <Border Background="{StaticResource PanelBackground}" CornerRadius="12" Padding="16">
+                    <StackPanel>
+                        <TextBlock Text="关于" Style="{StaticResource SectionTitle}"/>
+                        <TextBlock Text="OpenTranslator" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource TextPrimary}"/>
+                        <TextBlock Text="本地离线翻译工具" FontSize="12" Foreground="{StaticResource TextSecondary}" Margin="0,4,0,0"/>
+                        <TextBlock Text="基于 HY-MT2 模型 + LLamaSharp" FontSize="12" Foreground="{StaticResource TextSecondary}" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- 底部按钮 -->
+        <DockPanel Grid.Row="2" Margin="0,16,0,0" LastChildFill="False">
+            <Button Content="关闭" Style="{StaticResource SecondaryButton}" DockPanel.Dock="Right" Click="CloseButton_Click"/>
+        </DockPanel>
+    </Grid>
+</Window>
